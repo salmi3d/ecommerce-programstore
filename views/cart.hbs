@@ -1,0 +1,28 @@
+<h1>Cart</h1>
+<div id="cart">
+  {{# if programs.length }}
+  <table class="highlight responsive-table centered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{# each programs }}
+      <tr>
+        <td>{{ title }}</td>
+        <td>{{ count }}</td>
+        <td>
+          <button class="btn btn-small red js-remove" data-id="{{ id }}">Remove</button>
+        </td>
+      </tr>
+      {{/ each }}
+    </tbody>
+  </table>
+  <p class="right"><strong>Total:</strong> <span class="price">{{ total }}</span></p>
+  {{ else }}
+  <p class="center">Cart is empty</p>
+  {{/ if }}
+</div>
