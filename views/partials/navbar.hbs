@@ -2,8 +2,9 @@
   <div class="nav-wrapper">
     <a href="/" class="brand-logo">EDUSHOP</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li {{#if isPrograms }} class="active" {{/if}}><a href="/programs">Programs</a></li>
       <li {{#if isNewProgram }} class="active" {{/if}}><a href="/programs/new">Add program</a></li>
+      <li {{#if isPrograms }} class="active" {{/if}}><a href="/programs">Programs</a></li>
+      <li {{#if isOrders }} class="active" {{/if}}><a href="/orders">Orders</a></li>
       <li {{#if isCart }} class="active" {{/if}}><a href="/cart">Cart</a></li>
     </ul>
   </div>

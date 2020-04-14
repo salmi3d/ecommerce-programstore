@@ -1,29 +1,57 @@
-const Cart = require('../models/cart')
-const Program = require('../models/program')
-
+const Program = require('../models/program.model')
 
 module.exports = class CartController {
 
   static async addItem(req, res) {
-    const program = await Program.getById(req.body.id)
-    await Cart.add(program)
-
-    res.redirect('/cart')
+    try {
+      const program = await Program.findById(req.body.id)
+      await req.user.addToCart(program)
+      res.redirect('/cart')
+    } catch (e) {
+      console.error(e)
+      res.status(500).json({ error: e })
+    }
   }
 
   static async removeItem(req, res) {
-    const cart = await Cart.remove(req.params.id)
-    res.status(200).json(cart)
+    try {
+      await req.user.removeFromCart(req.params.id)
+      const user = await req.user.populate('cart.items.programId').execPopulate()
+      const programs = CartController.mapItems(user.cart)
+      const cart = {
+        programs,
+        total: CartController.calcTotal(programs)
+      }
+      res.status(200).json(cart)
+    } catch (e) {
+      console.error(e)
+      res.status(500).json({ error: e })
+    }
   }
 
   static async showCartPage(req, res) {
-    const cart = await Cart.fetch()
+    const user = await req.user.populate('cart.items.programId').execPopulate()
+    const programs = CartController.mapItems(user.cart)
+
     res.render('cart', {
       title: 'Cart',
       isCart: true,
-      programs: cart.programs,
-      total: cart.total
+      programs: programs,
+      total: CartController.calcTotal(programs)
     })
+  }
+
+  static mapItems(cart) {
+    return cart.items.map(i => ({
+      ...i.programId._doc,
+      count: i.count
+    }))
+  }
+
+  static calcTotal(programs) {
+    return programs.reduce((total, program) => {
+      return total += program.price * program.count
+    }, 0)
   }
 
 }

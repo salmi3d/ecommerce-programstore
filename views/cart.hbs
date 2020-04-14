@@ -15,13 +15,17 @@
         <td>{{ title }}</td>
         <td>{{ count }}</td>
         <td>
-          <button class="btn btn-small red js-remove" data-id="{{ id }}">Remove</button>
+          <button class="btn btn-small red js-remove" data-id="{{ _id }}">Remove</button>
         </td>
       </tr>
       {{/ each }}
     </tbody>
   </table>
   <p class="right"><strong>Total:</strong> <span class="price">{{ total }}</span></p>
+  <div class="clearfix"></div>
+  <form action="/orders" method="POST">
+    <button type="submit" class="btn green">Order now</button>
+  </form>
   {{ else }}
   <p class="center">Cart is empty</p>
   {{/ if }}

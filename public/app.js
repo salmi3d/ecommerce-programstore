@@ -1,6 +1,21 @@
 (function () {
-  const formattedCurrency = value => new Intl.NumberFormat('en-US', { currency: 'usd', style: 'currency' }).format(value)
+  const formattedCurrency = value => new Intl.NumberFormat('en-US', {
+    currency: 'usd',
+    style: 'currency'
+  }).format(value)
+
+  const formattedDate = value => new Intl.DateTimeFormat('en-US', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  }).format(new Date(value))
+
   document.querySelectorAll('.price').forEach(node => node.textContent = formattedCurrency(node.textContent))
+
+  document.querySelectorAll('.date').forEach(node => node.textContent = formattedDate(node.textContent))
 
   const $cart = document.querySelector('#cart')
   if ($cart) {
@@ -18,7 +33,7 @@
                     <td>${p.title}</td>
                     <td>${p.count}</td>
                     <td>
-                      <button class="btn btn-small red js-remove" data-id="${p.id}">Remove</button>
+                      <button class="btn btn-small red js-remove" data-id="${p._id}">Remove</button>
                     </td>
                   </tr>
                 `

@@ -12,10 +12,10 @@
         <p class="price">{{ price }}</p>
       </div>
       <div class="card-action actions">
-        <a href="/programs/{{ id }}" target="_blank">Show details</a>
-        <a href="/programs/edit/{{ id }}" target="_blank">Edit</a>
+        <a href="/programs/{{ _id }}" target="_blank">Show details</a>
+        <a href="/programs/edit/{{ _id }}" target="_blank">Edit</a>
         <form action="/cart/add" method="POST">
-          <input type="hidden" name="id" value="{{ id }}">
+          <input type="hidden" name="id" value="{{ _id }}">
           <button type="submit" class="btn btn-primary">Add to cart</button>
         </form>
       </div>
