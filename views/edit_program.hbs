@@ -1,5 +1,6 @@
 <h1>Edit program: {{ program.title }}</h1>
 <form method="POST">
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
   <input type="hidden" name="id" value="{{ program._id }}">
 
   <div class="input-field">
@@ -24,6 +25,7 @@
 </form>
 
 <form action="/programs/remove" method="POST" class="remove-form">
+  <input type="hidden" name="_csrf" value="{{ csrf }}">
   <input type="hidden" name="id" value="{{ program._id }}">
   <button type="submit" class="btn red">Remove program</button>
 </form>

@@ -1,8 +1,8 @@
 const router = new require('express').Router()
 const orderCtrl = require('../controllers/order.controller')
+const auth = require('../middleware/auth.middleware')
 
-router.get('/', orderCtrl.showAllOrdersPage)
-router.post('/', orderCtrl.addOrder)
-// router.delete('/remove/:id', orderCtrl.removeItem)
+router.get('/', auth, orderCtrl.showAllOrdersPage)
+router.post('/', auth, orderCtrl.addOrder)
 
 module.exports = router

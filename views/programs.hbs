@@ -2,7 +2,7 @@
 {{# if programs.length }}
 {{# each programs }}
 <div class="row">
-  <div class="col m6 offset-m3">
+  <div class="col s6 offset-s3">
     <div class="card">
       <div class="card-image">
         <img src="{{ img }}" alt="{{ title }}">
@@ -13,11 +13,14 @@
       </div>
       <div class="card-action actions">
         <a href="/programs/{{ _id }}" target="_blank">Show details</a>
+        {{# if @root.isAuth }}
         <a href="/programs/edit/{{ _id }}" target="_blank">Edit</a>
         <form action="/cart/add" method="POST">
+          <input type="hidden" name="_csrf" value="{{ @root.csrf }}">
           <input type="hidden" name="id" value="{{ _id }}">
           <button type="submit" class="btn btn-primary">Add to cart</button>
         </form>
+        {{/ if }}
       </div>
     </div>
   </div>

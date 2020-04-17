@@ -1,0 +1,60 @@
+<div class="auth">
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s6"><a class="active" href="#login">Login</a></li>
+        <li class="tab col s6"><a href="#register">Register</a></li>
+      </ul>
+    </div>
+    <div id="login" class="col s8 offset-s2">
+      <h1>Sign in to your account</h1>
+      <form action="/auth/login" method="POST">
+        <input type="hidden" name="_csrf" value="{{ csrf }}">
+        <div class="input-field">
+          <input name="email" id="s-email" type="text" class="validate" required>
+          <label for="s-email">Email</label>
+          <span class="helper-text" data-error="Please enter a valid email"></span>
+        </div>
+
+        <div class="input-field">
+          <input name="password" id="s-password" type="password" class="validate" required>
+          <label for="s-password">Password</label>
+          <span class="helper-text" data-error="Please enter a password"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign IN</button>
+      </form>
+    </div>
+    <div id="register" class="col s8 offset-s2">
+      <h1>Create your account</h1>
+      <form action="/auth/register" method="POST">
+        <input type="hidden" name="_csrf" value="{{ csrf }}">
+        <div class="input-field">
+          <input name="name" id="name" type="text" class="validate" required>
+          <label for="name">Name</label>
+          <span class="helper-text" data-error="Please enter your name"></span>
+        </div>
+
+        <div class="input-field">
+          <input name="email" id="r-email" type="text" class="validate" required>
+          <label for="r-email">Email</label>
+          <span class="helper-text" data-error="Please enter a valid email"></span>
+        </div>
+
+        <div class="input-field">
+          <input name="password" id="r-password" type="password" class="validate" required>
+          <label for="r-password">Password</label>
+          <span class="helper-text" data-error="Please enter a password"></span>
+        </div>
+
+        <div class="input-field">
+          <input name="password2" id="r-password2" type="password" class="validate" required>
+          <label for="r-password2">Same password</label>
+          <span class="helper-text" data-error="Please enter the password one more time"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign UP</button>
+      </form>
+    </div>
+  </div>
+</div>
