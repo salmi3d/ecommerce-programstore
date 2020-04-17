@@ -7,6 +7,9 @@
       </ul>
     </div>
     <div id="login" class="col s8 offset-s2">
+      {{# if loginError }}
+      <p class="msg msg-error">{{ loginError }}</p>
+      {{/ if  }}
       <h1>Sign in to your account</h1>
       <form action="/auth/login" method="POST">
         <input type="hidden" name="_csrf" value="{{ csrf }}">
@@ -26,6 +29,9 @@
       </form>
     </div>
     <div id="register" class="col s8 offset-s2">
+      {{# if registerError }}
+      <p class="msg msg-error">{{ registerError }}</p>
+      {{/ if  }}
       <h1>Create your account</h1>
       <form action="/auth/register" method="POST">
         <input type="hidden" name="_csrf" value="{{ csrf }}">

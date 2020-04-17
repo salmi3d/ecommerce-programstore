@@ -6,7 +6,9 @@ module.exports = class AuthController {
   static showAuthPage(req, res) {
     res.render('auth/entry', {
       title: 'Authorization',
-      isLogin: true
+      isLogin: true,
+      loginError: req.flash('loginError'),
+      registerError: req.flash('registerError')
     })
   }
 
@@ -15,12 +17,14 @@ module.exports = class AuthController {
       const { email, password } = req.body
       const user = await User.findOne({ email })
       if (!user) {
+        req.flash('loginError', 'Incorrect login and/or password')
         return res.redirect('/auth/entry#login')
       }
 
       const isPasswordCorrect = await bcrypt.compare(password, user.password)
 
       if (!isPasswordCorrect) {
+        req.flash('loginError', 'Incorrect login and/or password')
         return res.redirect('/auth/entry#login')
       }
 
@@ -51,6 +55,7 @@ module.exports = class AuthController {
       const candidate = await User.findOne({ email })
 
       if (candidate) {
+        req.flash('registerError', 'A user with the given email already exists')
         return res.redirect('/auth/entry#register')
       }
 
