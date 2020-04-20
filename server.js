@@ -10,6 +10,7 @@ const flash = require('connect-flash')
 const exphbs = require('express-handlebars')
 const varMiddleware = require('./middleware/vars.middleware')
 const userMiddleware = require('./middleware/user.middleware')
+const error404Handler = require('./middleware/error.middleware')
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.use('/auth', require('./routes/auth.route'))
 app.use('/programs', require('./routes/program.route'))
 app.use('/orders', require('./routes/order.route'))
 app.use('/cart', require('./routes/cart.route'))
+app.use(error404Handler)
 
 const start = async () => {
   const PORT = process.env.PORT || 8080
