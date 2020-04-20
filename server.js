@@ -15,7 +15,7 @@ const app = express()
 
 const store = new MongoStore({ collection: 'sessions', uri: process.env.DB_URI })
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs' }))
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs', helpers: require('./utils/hbs-helpers') }))
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 

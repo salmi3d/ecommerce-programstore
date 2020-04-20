@@ -14,7 +14,9 @@
       <div class="card-action actions">
         <a href="/programs/{{ _id }}" target="_blank">Show details</a>
         {{# if @root.isAuth }}
-        <a href="/programs/edit/{{ _id }}" target="_blank">Edit</a>
+        {{# ifeq userId._id @root.userId }}
+        <a href="/programs/edit/{{ _id }}">Edit</a>
+        {{/ ifeq }}
         <form action="/cart/add" method="POST">
           <input type="hidden" name="_csrf" value="{{ @root.csrf }}">
           <input type="hidden" name="id" value="{{ _id }}">

@@ -8,6 +8,7 @@ module.exports = class ProgramController {
       res.render('programs', {
         title: 'All programs',
         isPrograms: true,
+        userId: req.user ? req.user._id.toString() : null,
         programs
       })
     } catch (e) {
@@ -43,8 +44,13 @@ module.exports = class ProgramController {
   static async editProgram(req, res) {
     try {
       const { id } = req.body
+      const program = await Program.findById(id)
+      if (!ProgramController.isProgramOwner(program, req)) {
+        return res.redirect('/programs')
+      }
       delete req.body.id
-      await Program.findByIdAndUpdate(id, req.body).lean()
+      Object.assign(program, req.body)
+      await program.save()
       res.redirect('/programs')
     } catch (e) {
       console.error(e)
@@ -55,7 +61,7 @@ module.exports = class ProgramController {
   static async removeProgram(req, res) {
     try {
       const { id: _id } = req.body
-      await Program.deleteOne({ _id })
+      await Program.deleteOne({ _id, userId: req.user._id })
       res.redirect('/programs')
     } catch (e) {
       console.error(e)
@@ -80,6 +86,9 @@ module.exports = class ProgramController {
   static async showEditProgramPage(req, res) {
     try {
       const program = await Program.findById(req.params.id).lean()
+      if (!ProgramController.isProgramOwner(program, req)) {
+        return res.redirect('/programs')
+      }
       res.render('edit_program', {
         title: `${program.title} :: Edit Program`,
         program
@@ -88,6 +97,10 @@ module.exports = class ProgramController {
       console.error(e)
       res.status(500).json({ error: e })
     }
+  }
+
+  static isProgramOwner(program, req) {
+    return program.userId.toString() === req.user._id.toString()
   }
 
 }
