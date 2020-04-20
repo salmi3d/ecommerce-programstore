@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
+const { validationResult } = require('express-validator')
 const User = require('../models/user.model')
 const sgMail = require('@sendgrid/mail')
 const regEmail = require('../emails/registration.email')
@@ -54,6 +55,11 @@ module.exports = class AuthController {
 
   static async login(req, res) {
     try {
+      const result = validationResult(req)
+      if (!result.isEmpty()) {
+        req.flash('loginError', result.errors[0].msg || 'Incorrect data')
+        return res.status(422).redirect('/auth/entry#login')
+      }
       const { email, password } = req.body
       const user = await User.findOne({ email })
       if (!user) {
@@ -115,14 +121,12 @@ module.exports = class AuthController {
 
   static async register(req, res) {
     try {
-      const { name, email, password, password2 } = req.body
-      const candidate = await User.findOne({ email })
-
-      if (candidate) {
-        req.flash('registerError', 'A user with the given email already exists')
-        return res.redirect('/auth/entry#register')
+      const result = validationResult(req)
+      if (!result.isEmpty()) {
+        req.flash('registerError', result.errors[0].msg || 'Incorrect data')
+        return res.status(422).redirect('/auth/entry#register')
       }
-
+      const { name, email, password } = req.body
       const hashedPassword = await bcrypt.hash(password, 10)
       const user = new User({ email, name, password: hashedPassword, cart: { items: [] } })
       await user.save()

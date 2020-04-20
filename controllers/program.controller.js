@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator')
 const Program = require('../models/program.model')
 
 module.exports = class ProgramController {
@@ -25,8 +26,18 @@ module.exports = class ProgramController {
   }
 
   static async addProgram(req, res) {
+    const { title, price, img } = req.body
+    const result = validationResult(req)
+    if (!result.isEmpty()) {
+      return res.status(422).render('new_program', {
+        title: 'Add program',
+        isNewProgram: true,
+        error: result.errors[0].msg || 'Incorrect data',
+        data: { title, price, img }
+      })
+    }
     try {
-      const { title, price, img } = req.body
+
       const program = new Program({
         title,
         price,
@@ -42,8 +53,13 @@ module.exports = class ProgramController {
   }
 
   static async editProgram(req, res) {
+    const { id } = req.body
+    const result = validationResult(req)
+    if (!result.isEmpty()) {
+      req.flash('error', result.errors[0].msg || 'Incorrect data')
+      return res.status(422).redirect(`/programs/edit/${id}`)
+    }
     try {
-      const { id } = req.body
       const program = await Program.findById(id)
       if (!ProgramController.isProgramOwner(program, req)) {
         return res.redirect('/programs')
@@ -91,6 +107,7 @@ module.exports = class ProgramController {
       }
       res.render('edit_program', {
         title: `${program.title} :: Edit Program`,
+        error: req.flash('error'),
         program
       })
     } catch (e) {

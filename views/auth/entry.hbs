@@ -14,7 +14,7 @@
       <form action="/auth/login" method="POST">
         <input type="hidden" name="_csrf" value="{{ csrf }}">
         <div class="input-field">
-          <input name="email" id="s-email" type="text" class="validate" required>
+          <input name="email" id="s-email" type="email" class="validate" required>
           <label for="s-email">Email</label>
           <span class="helper-text" data-error="Please enter a valid email"></span>
         </div>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="input-field">
-          <input name="email" id="r-email" type="text" class="validate" required>
+          <input name="email" id="r-email" type="email" class="validate" required>
           <label for="r-email">Email</label>
           <span class="helper-text" data-error="Please enter a valid email"></span>
         </div>
