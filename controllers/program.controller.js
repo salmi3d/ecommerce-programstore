@@ -37,7 +37,6 @@ module.exports = class ProgramController {
       })
     }
     try {
-
       const program = new Program({
         title,
         price,

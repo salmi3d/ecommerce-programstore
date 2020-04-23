@@ -61,3 +61,8 @@
   background-color: #29b6f6;
   color: white;
 }
+
+.avatar {
+  max-width: 250px;
+  height: auto;
+}
