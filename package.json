@@ -1,7 +1,7 @@
 {
-  "name": "pure-eshop",
+  "name": "ecommerce-programstore",
   "version": "1.0.0",
-  "description": "pure-eshop",
+  "description": "ecommerce-programstore",
   "main": "server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server",

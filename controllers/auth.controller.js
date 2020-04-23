@@ -5,6 +5,7 @@ const User = require('../models/user.model')
 const sgMail = require('@sendgrid/mail')
 const regEmail = require('../emails/registration.email')
 const resetEmail = require('../emails/reset.email')
+const { getBaseUrl } = require('../utils/base-url')
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
@@ -130,7 +131,7 @@ module.exports = class AuthController {
       const hashedPassword = await bcrypt.hash(password, 10)
       const user = new User({ email, name, password: hashedPassword, cart: { items: [] } })
       await user.save()
-      sgMail.send(regEmail(email))
+      sgMail.send(regEmail(email, getBaseUrl(req)))
       res.redirect('/auth/entry#login')
     } catch (e) {
       console.log(e)
@@ -156,7 +157,8 @@ module.exports = class AuthController {
         user.resetToken = buffer.toString('hex')
         user.resetTokenExp = Date.now() + 3600 * 1000
         await user.save()
-        sgMail.send(resetEmail(user.email, user.resetToken))
+        console.log(getBaseUrl(req))
+        sgMail.send(resetEmail(user.email, user.resetToken, getBaseUrl(req)))
         res.redirect('/auth/entry#login')
       })
     } catch (e) {

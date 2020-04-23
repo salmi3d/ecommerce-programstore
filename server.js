@@ -21,7 +21,7 @@ const store = new MongoStore({ collection: 'sessions', uri: process.env.DB_URI }
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs', helpers: require('./utils/hbs-helpers') }))
 app.set('view engine', 'hbs')
-app.set('views', 'views')
+app.set('views', path.join(__dirname, 'views'))
 
 process.env.NODE_ENV !== 'production' && app.use(morgan('dev'))
 

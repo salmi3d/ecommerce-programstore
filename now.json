@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
+      },
+      "src": "/.*",
+      "dest": "/server.js"
+    }
+  ],
+  "env": {
+    "DB_URI": "@ecommerce-programstore.db_uri",
+    "SECRET_KEY": "@ecommerce-programstore.secret_key",
+    "SENDGRID_API_KEY": "@ecommerce-programstore.sendgrid_api_key",
+    "EMAIL_FROM": "@ecommerce-programstore.email_from"
+  }
+}
